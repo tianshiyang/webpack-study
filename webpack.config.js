@@ -123,6 +123,6 @@ module.exports = {
     new webpack.IgnorePlugin({ // 目的是将插件中的非中文语音排除掉，这样就可以大大节省打包的体积了
       resourceRegExp: /^\.\/locale$/,
       contextRegExp: /moment$/,
-    }),
+    })
   ]
 }
