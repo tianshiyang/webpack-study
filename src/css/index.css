@@ -1,0 +1,23 @@
+/* // @import url("./color.scss"); */
+
+.background {
+  background-image: url(../image/assets.png);
+  width: 500px;
+  height: 500px;
+}
+
+.style {
+  padding: 40px 20px;
+  background-color: red;
+  position: absolute;
+  /* border: $border-style; */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.example {
+  display: grid;
+  transition: all .5s;
+  user-select: none;
+  background: linear-gradient(to bottom, white, black);
+}
