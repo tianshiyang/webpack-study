@@ -17,7 +17,7 @@ setTsName("typeScript!!!!")
 console.log(getTsName())
 
 console.log("alias =========")
-import { aliasFunction } from "@module/index.ts"
+import { aliasFunction } from "@/module/index.ts"
 aliasFunction()
 
 import $ from 'jquery'

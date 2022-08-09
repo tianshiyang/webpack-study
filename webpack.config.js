@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const RequireRepeatHttpUrl = require("./plugin/RequireRepeatHttpUrl")
 
 const webpack = require('webpack')
 
@@ -36,7 +37,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'], // 尝试按顺序解析这些后缀名
     alias: {
-      "@module": path.resolve(__dirname, 'src/module/')
+      "@": path.resolve(__dirname, 'src'),
     },
     modules: [path.resolve('src'), 'node_modules'], // 告诉 webpack 解析模块时应该搜索的目录, 告诉 webpack 优先 src 目录下查找需要解析的文件，会大大节省查找时间
   },
@@ -123,6 +124,10 @@ module.exports = {
     new webpack.IgnorePlugin({ // 目的是将插件中的非中文语音排除掉，这样就可以大大节省打包的体积了
       resourceRegExp: /^\.\/locale$/,
       contextRegExp: /moment$/,
+    }),
+    new RequireRepeatHttpUrl({
+      folderPath: path.resolve(__dirname, 'src'), // 文件夹位置
+      extensions: ".js", // 解析的文件类型
     })
   ]
 }
