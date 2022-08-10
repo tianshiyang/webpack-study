@@ -3,3 +3,13 @@ export function testApi1() {
     url: "api/test1.json"
   })
 }
+export function testApi2() {
+  return ({
+    url: "api/test2.json"
+  })
+}
+export function testApi3() {
+  return ({
+    url: "api/test3.json"
+  })
+}

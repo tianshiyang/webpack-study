@@ -12,9 +12,8 @@ class RequireRepeatHttpUrl {
   }
   apply(compiler) {
     // todo hooks生命周期afterResolvers可以换成更合适的，目前写这个因为想再webpack.config.js中使用alias
-    compiler.hooks.emit.tapPromise(PluginName, (compilation) => {
+    compiler.hooks.emit.tapPromise(PluginName, () => {
       return new Promise((resolve, reject) => {
-        // this.logger = compilation.getLogger(PluginName);
         const checkExtensionsResult = this.checkExtensions(reject);
         if (checkExtensionsResult) {
           // 文件类型符合.js或者.ts
