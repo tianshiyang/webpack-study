@@ -13,3 +13,21 @@ export function testApi3() {
     url: "api/test3.json"
   })
 }
+
+export function urltestApi7() {
+  return ({
+    url: "api/test7.json"
+  })
+}
+
+export function urltestApi9() {
+  return ({
+    url: "api/test7.json"
+  })
+}
+
+export function urltestApi8() {
+  return ({
+    url: "api/test8.json"
+  })
+}
