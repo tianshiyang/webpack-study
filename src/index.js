@@ -23,3 +23,7 @@ aliasFunction()
 import $ from 'jquery'
 $("#jqueryDom").text("从cdn获取的外部扩展，不打包到dist文件中")
 console.log($("#jqueryDom"))
+
+
+import { testApi1 } from "@/api/test1.js"
+console.log(testApi1())
