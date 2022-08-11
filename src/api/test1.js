@@ -20,14 +20,3 @@ export function urltestApi7() {
   })
 }
 
-export function urltestApi9() {
-  return ({
-    url: "api/test7.json"
-  })
-}
-
-export function urltestApi8() {
-  return ({
-    url: "api/test8.json"
-  })
-}

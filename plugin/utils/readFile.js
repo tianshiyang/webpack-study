@@ -1,58 +1,68 @@
 const fs = require("fs");
 const path = require("path");
 
-const repeatUrls = [];
-const existUrlObj = {};
+let repeatUrls = [];
+let existUrlObj = {};
+let suffixRegexp = null
 
 // 读取所有文件夹
-function readAllFolder(logger, filePath, suffix, resolve, reject) {
-  const suffixRegexp = RegExp(suffix.map((res) => "\\" + res).join("|")); // 文件结尾类型
+function readAllFolder(filePath, suffix, resolve, reject) {
+  if (!suffixRegexp) {
+    suffixRegexp = RegExp(suffix.map((res) => "\\" + res).join("|")); // 文件结尾类型
+  }
   fs.readdir(filePath, (error, files) => {
     if (error) {
       reject(`读取${filePath}下的文件夹失败：${error}`);
     } else {
       // 遍历读取当前文件的绝对路径
-      Promise.all(files.map((filename) => {
-        return new Promise((FResolve, FReject) => {
-          const fileDir = path.join(filePath, filename);
-          fs.stat(fileDir, (error, stats) => {
-            if (error) {
-              reject("获取文件stats失败");
-            } else {
-              const isFile = stats.isFile(); // 是文件
-              const isDir = stats.isDirectory(); // 是文件夹
-              if (isFile && suffixRegexp.test(fileDir)) {
-                readFile(fileDir, resolve, reject, FResolve);
-              }
-              if (isDir) {
-                readAllFolder(logger, fileDir, suffix, resolve, reject); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
-              }
-            }
-          });
-        });
-      })).then(res => {
+      readAllFolderPath(files, filePath, resolve, reject).then(res => {
         const exsitUrls = [...new Set(res.flat(99))]
-        console.log(exsitUrls)
         if (exsitUrls.length) {
-          logger.error(`url路径${exsitUrls}重复`)
+          reject(`url路径${exsitUrls}重复`)
         }
+        resolve(res)
+      }).catch(err => {
+        reject(err)
       })
     }
   });
 }
 
+function readAllFolderPath(files, filePath, resolve, reject) {
+  return Promise.all(files.map((filename) => {
+    return new Promise((FResolve, FReject) => {
+      const fileDir = path.join(filePath, filename);
+      fs.stat(fileDir, (error, stats) => {
+        if (error) {
+          FReject("获取文件stats失败");
+        } else {
+          const isFile = stats.isFile(); // 是文件
+          const isDir = stats.isDirectory(); // 是文件夹
+          if (isFile && suffixRegexp.test(fileDir)) {
+            readFile(fileDir, FResolve, FReject);
+          }
+          if (isDir) {
+            readAllFolder(fileDir, null, resolve, reject); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
+          }
+        }
+      });
+    });
+  }))
+}
+
 // 读取文件
-function readFile(dirPath, resolve, reject, FResolve) {
+function readFile(dirPath, FResolve, FReject) {
   fs.readFile(dirPath, "utf-8", (err, dataStr) => {
     if (err) {
-      return reject("读取文件失败" + err.message);
+      FReject("读取文件失败" + err.message);
+      return
     }
     if (!dataStr.includes("url")) {
-      resolve();
+      FResolve();
       return;
     }
     findUrl(dataStr, FResolve);
-    resolve();
+    FResolve();
   });
 }
 
