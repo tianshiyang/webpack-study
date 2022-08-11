@@ -19,4 +19,3 @@ export function urltestApi7() {
     url: "api/test7.json"
   })
 }
-
