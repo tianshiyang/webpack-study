@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const RequireRepeatHttpUrl = require("./plugin/RequireRepeatHttpUrl")
+const CheckRepeatHttpUrl = require("check-repeat-http-url");
 
 const webpack = require('webpack')
 
@@ -125,7 +125,7 @@ module.exports = {
       resourceRegExp: /^\.\/locale$/,
       contextRegExp: /moment$/,
     }),
-    new RequireRepeatHttpUrl({
+    new CheckRepeatHttpUrl({
       folderPath: path.resolve(__dirname, 'src'), // 文件夹位置
       extensions: ".js", // 解析的文件类型
     })

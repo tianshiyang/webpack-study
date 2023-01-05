@@ -16,6 +16,6 @@ export function testApi3() {
 
 export function urltestApi7() {
   return ({
-    url: "api/test7.json"
+    url: "api/test8.json"
   })
 }

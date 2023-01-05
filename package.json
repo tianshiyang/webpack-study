@@ -35,6 +35,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "check-repeat-http-url": "^1.0.1",
     "node-sass": "^7.0.1"
   },
   "browserslist": [
